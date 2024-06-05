@@ -1,8 +1,8 @@
-package applicationreceiver
+package application_createevent
 
 import "time"
 
-type InsertReceiverDto struct {
+type CreateProductCommand struct {
 	SubscriptionID  string      `json:"subscriptionId"`
 	NotificationID  int         `json:"notificationId"`
 	ID              string      `json:"id"`

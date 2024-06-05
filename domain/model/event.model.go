@@ -2,7 +2,7 @@ package model
 
 import "time"
 
-type Receiver struct {
+type Event struct {
 	ID             string    `json:"id"`
 	SubscriptionID string    `json:"subscriptionId"`
 	EventType      string    `json:"eventType"`
@@ -12,8 +12,8 @@ type Receiver struct {
 	Processed      bool      `json:"processed"`
 }
 
-func NewReceiver(id string, subscriptionId string, eventType string, createdDate time.Time, resourceId int, resourceUrl string) *Receiver {
-	return &Receiver{ID: id,
+func NewEvent(id string, subscriptionId string, eventType string, createdDate time.Time, resourceId int, resourceUrl string) *Event {
+	return &Event{ID: id,
 		SubscriptionID: subscriptionId,
 		EventType:      eventType,
 		CreatedDate:    createdDate,

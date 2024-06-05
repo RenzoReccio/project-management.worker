@@ -4,24 +4,26 @@ import (
 	"log"
 	"os"
 
-	application "github.com/RenzoReccio/project-management.worker/application/receiver/insertReceiver"
-	mongoInfraestructure "github.com/RenzoReccio/project-management.worker/infrastructure/mongo/receiver"
+	application_createevent "github.com/RenzoReccio/project-management.worker/application/event/command/create-event"
+	mongoInfraestructure "github.com/RenzoReccio/project-management.worker/infrastructure/mongo/event"
 	"github.com/RenzoReccio/project-management.worker/presentation/controllers"
 	"github.com/RenzoReccio/project-management.worker/presentation/middleware"
 	"github.com/gin-gonic/gin"
+	"github.com/mehdihadeli/go-mediatr"
 )
+
+func InitializeMediatR() {
+	eventService := mongoInfraestructure.NewEventService()
+	createProductCommandHandler := application_createevent.NewCreateEventCommandHandler(eventService)
+	mediatr.RegisterRequestHandler[*application_createevent.CreateProductCommand, *string](createProductCommandHandler)
+
+}
 
 func initializeReceiverHttpHandler(router *gin.Engine) {
 	// Initialize all layers
-	receiverService := mongoInfraestructure.NewReceiverService()
-
-	receiverUsecase := application.NewInsertReceiverUseCase(
-		receiverService,
-	)
-
-	receiverController := controllers.NewReceiverController(receiverUsecase)
+	receiverController := controllers.NewEventController()
 	// Routers
-	router.POST("receiver", receiverController.InsertReceiver)
+	router.POST("event", receiverController.InsertEvent)
 }
 
 func main() {
