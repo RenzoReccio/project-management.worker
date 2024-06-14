@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/RenzoReccio/project-management.worker/domain/model"
+	model_shared "github.com/RenzoReccio/project-management.worker/domain/model/shared"
 	"github.com/RenzoReccio/project-management.worker/domain/repository"
 )
 
@@ -15,13 +16,13 @@ func NewCreateEventCommandHandler(eventRepository repository.EventRepository) *C
 	return &CreateEventCommandHandler{eventRepository: eventRepository}
 }
 
-func (c *CreateEventCommandHandler) Handle(ctx context.Context, command *CreateProductCommand) (*string, error) {
+func (c *CreateEventCommandHandler) Handle(ctx context.Context, command *CreateProductCommand) (*model_shared.ResultWithValue[model.Event], error) {
 
 	event := model.NewEvent(command.ID, command.SubscriptionID, command.EventType, command.CreatedDate, command.Resource.ID, command.Resource.URL)
-	createdEvent, err := c.eventRepository.InsertEvent(event)
-	if err != nil {
-		return nil, err
+	resultcreatedEvent := c.eventRepository.InsertEvent(event)
+	if !resultcreatedEvent.IsSuccess {
+		return model_shared.NewResultWithValueFailure[model.Event](model_shared.NewError("EVENT_NOT_CREATED", "Failure creating event.")), nil
 	}
 
-	return &createdEvent.ID, nil
+	return model_shared.NewResultWithValueSuccess[model.Event](resultcreatedEvent.Result()), nil
 }

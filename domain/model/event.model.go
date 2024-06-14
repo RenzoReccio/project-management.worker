@@ -3,17 +3,19 @@ package model
 import "time"
 
 type Event struct {
-	ID             string    `json:"id"`
-	SubscriptionID string    `json:"subscriptionId"`
-	EventType      string    `json:"eventType"`
-	CreatedDate    time.Time `json:"createdDate"`
-	ResourceId     int       `json:"resourceId"`
-	ResourceUrl    string    `json:"resourceUrl"`
-	Processed      bool      `json:"processed"`
+	Id             string
+	EventID        string
+	SubscriptionID string
+	EventType      string
+	CreatedDate    time.Time
+	ResourceId     int
+	ResourceUrl    string
+	Processed      bool
 }
 
-func NewEvent(id string, subscriptionId string, eventType string, createdDate time.Time, resourceId int, resourceUrl string) *Event {
-	return &Event{ID: id,
+func NewEvent(eventId string, subscriptionId string, eventType string, createdDate time.Time, resourceId int, resourceUrl string) *Event {
+	return &Event{
+		EventID:        eventId,
 		SubscriptionID: subscriptionId,
 		EventType:      eventType,
 		CreatedDate:    createdDate,

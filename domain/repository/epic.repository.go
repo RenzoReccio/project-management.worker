@@ -5,6 +5,6 @@ import (
 	model_shared "github.com/RenzoReccio/project-management.worker/domain/model/shared"
 )
 
-type EventRepository interface {
-	InsertEvent(in *model.Event) *model_shared.ResultWithValue[model.Event]
+type EpicRepository interface {
+	GetEpic(url string) *model_shared.ResultWithValue[model.Epic]
 }
