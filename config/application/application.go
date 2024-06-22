@@ -15,7 +15,7 @@ func InitApplication(configService *config_service.ConfigService) {
 	createEventCommandHandler := application_createevent.NewCreateEventCommandHandler(configService.EventRepository)
 	getTaskCommandHandler := application_gettask.NewGetTaskQueryHandler(configService.TaskRepository)
 	getWorkItemTypeQueryHandler := application_getworkitemtype.NewGetWorkItemTypeQueryHandler(configService.WorkItemTypeRepository)
-	getEpicQueryHandler := application_getepic.NewGetEpicQueryHandler(configService.EpicRepository, configService.CommentRepository)
+	getEpicQueryHandler := application_getepic.NewGetEpicQueryHandler(configService.EpicRepository, configService.CommentRepository, configService.MessageRepository)
 
 	mediatr.RegisterRequestHandler[*application_createevent.CreateProductCommand, *model_shared.ResultWithValue[model.Event]](createEventCommandHandler)
 	mediatr.RegisterRequestHandler[*application_gettask.GetTaskQuery, *model.Task](getTaskCommandHandler)

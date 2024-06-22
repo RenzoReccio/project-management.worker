@@ -14,6 +14,7 @@ import (
 	azureapi_task "github.com/RenzoReccio/project-management.worker/infrastructure/azure-api/task"
 	azureapi_workItemType "github.com/RenzoReccio/project-management.worker/infrastructure/azure-api/workItemType"
 	mongoInfraestructure "github.com/RenzoReccio/project-management.worker/infrastructure/mongo/event"
+	pubsub_message "github.com/RenzoReccio/project-management.worker/infrastructure/pub-sub"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -25,6 +26,7 @@ type ConfigService struct {
 	EventRepository        repository.EventRepository
 	TaskRepository         repository.TaskRepository
 	WorkItemTypeRepository repository.WorkItemTypeRepository
+	MessageRepository      repository.MessageRepository
 }
 
 func InitMongoDatabase(mongoDBConnetion string) *mongo.Database {
@@ -62,5 +64,6 @@ func NewConfigService() *ConfigService {
 		WorkItemTypeRepository: azureapi_workItemType.NewWorkItemTypeService(client, headerAPI),
 		EpicRepository:         azureapi_epic.NewWorkItemTypeService(client, headerAPI),
 		CommentRepository:      azureapi_comment.NewCommentService(client, headerAPI),
+		MessageRepository:      pubsub_message.NewMessageService(config.PubSubConnection),
 	}
 }

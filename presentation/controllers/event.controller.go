@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -28,13 +29,15 @@ func (u *EventController) InsertEvent(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, model_shared.NewResultFailure(model_shared.NewError("BAD_REQUEST", "Input not correct format")))
 		return
 	}
-	ProcessEvent(c, req)
+	go ProcessEvent(req)
 
-	// c.IndentedJSON(http.StatusCreated, model_shared.NewResultSuccess())
+	c.IndentedJSON(http.StatusCreated, model_shared.NewResultSuccess())
 }
 
-func ProcessEvent(c *gin.Context, req *application_createevent.CreateProductCommand) {
-	resultEvent, _ := mediatr.Send[*application_createevent.CreateProductCommand, *model_shared.ResultWithValue[model.Event]](c, req)
+func ProcessEvent(req *application_createevent.CreateProductCommand) {
+	context := context.Background()
+
+	resultEvent, _ := mediatr.Send[*application_createevent.CreateProductCommand, *model_shared.ResultWithValue[model.Event]](context, req)
 	if !resultEvent.IsSuccess {
 		fmt.Println(resultEvent.Error)
 		return
@@ -46,24 +49,30 @@ func ProcessEvent(c *gin.Context, req *application_createevent.CreateProductComm
 		ResourceURL: event.ResourceUrl,
 	}
 
-	resultgetWorkItemTypeQuery, _ := mediatr.Send[*application_getworkitemtype.GetWorkItemTypeQuery, *model_shared.ResultWithValue[model.WorkItemType]](c, getWorkItemTypeQuery)
+	resultgetWorkItemTypeQuery, _ := mediatr.Send[*application_getworkitemtype.GetWorkItemTypeQuery, *model_shared.ResultWithValue[model.WorkItemType]](context, getWorkItemTypeQuery)
 	if !resultgetWorkItemTypeQuery.IsSuccess {
 		fmt.Println(resultgetWorkItemTypeQuery.Error)
 		return
 	}
 	fmt.Println(*resultgetWorkItemTypeQuery.Result())
 
-	epic, _ := mediatr.Send[*application_getepic.GetEpicQuery, *model_shared.ResultWithValue[model.Epic]](c, &application_getepic.GetEpicQuery{ResourceURL: event.ResourceUrl})
-	b, err := json.Marshal(epic.Result())
+	ExecuteEvent(context, event, resultgetWorkItemTypeQuery.Result())
+}
+
+func ExecuteEvent(context context.Context, event *model.Event, workItemType *model.WorkItemType) {
+	var result any
+	// mediatr.Publish()
+	switch *workItemType.Type {
+	case model_shared.EpicType:
+		result, _ = mediatr.Send[*application_getepic.GetEpicQuery, *model_shared.ResultWithValue[model.Epic]](context, &application_getepic.GetEpicQuery{ResourceURL: event.ResourceUrl})
+
+	default:
+		panic("Not implemented")
+	}
+	b, err := json.Marshal(result)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	fmt.Println(string(b))
-	c.IndentedJSON(http.StatusCreated, epic.Result())
-
-	// if err != nil {
-	// 	fmt.Println(task)
-	// 	return
-	// }
 }

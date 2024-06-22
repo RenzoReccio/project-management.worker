@@ -28,14 +28,14 @@ func NewResultWithValueSuccess[TValue any](value *TValue) *ResultWithValue[TValu
 
 func NewResultFailure(error *Error) *Result {
 	return &Result{
-		IsSuccess: true,
+		IsSuccess: false,
 		Error:     error,
 	}
 }
 
 func NewResultWithValueFailure[TValue any](error *Error) *ResultWithValue[TValue] {
 	return &ResultWithValue[TValue]{
-		IsSuccess: true,
+		IsSuccess: false,
 		Error:     error,
 		value:     nil,
 	}

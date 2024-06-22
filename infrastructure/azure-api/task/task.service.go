@@ -10,13 +10,6 @@ import (
 	"github.com/RenzoReccio/project-management.worker/domain/repository"
 )
 
-const (
-	TaskType      = "Task"
-	UserStoryType = "User Story"
-	FeatyreType   = "Feature"
-	EpicType      = "Epic"
-)
-
 type TaskAzure struct {
 	ID     int `json:"id"`
 	Rev    int `json:"rev"`
