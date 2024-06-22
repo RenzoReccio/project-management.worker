@@ -11,8 +11,9 @@ type CreateProductCommand struct {
 	Message         interface{} `json:"message"`
 	DetailedMessage interface{} `json:"detailedMessage"`
 	Resource        struct {
-		ID  int    `json:"id"`
-		URL string `json:"url"`
+		ID         int    `json:"id"`
+		URL        string `json:"url"`
+		WorkItemId int    `json:"workItemId"`
 	} `json:"resource"`
 	ResourceVersion    string `json:"resourceVersion"`
 	ResourceContainers struct {
