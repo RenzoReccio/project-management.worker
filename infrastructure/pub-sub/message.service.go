@@ -93,3 +93,27 @@ func (c MessageService) SendUserStory(in *model.UserStory) *model_shared.ResultW
 
 	return model_shared.NewResultWithValueSuccess[string](&id)
 }
+
+func (c MessageService) SendTask(in *model.Task) *model_shared.ResultWithValue[string] {
+	topicID := model_shared.TaskType
+	ctx := context.Background()
+
+	t := c.pubSubClient.Topic(topicID)
+	jsonEpic, err := json.Marshal(in)
+	if err != nil {
+		return model_shared.NewResultWithValueFailure[string](model_shared.NewError("PUB_SUB_FAIL", err.Error()))
+	}
+
+	result := t.Publish(ctx, &pubsub.Message{
+		Data: []byte(string(jsonEpic)),
+	})
+	// Block until the result is returned and a server-generated
+	// ID is returned for the published message.
+	id, err := result.Get(ctx)
+	if err != nil {
+		log.Printf("error %s", err)
+		return model_shared.NewResultWithValueFailure[string](model_shared.NewError("PUB_SUB_FAIL", err.Error()))
+	}
+
+	return model_shared.NewResultWithValueSuccess[string](&id)
+}

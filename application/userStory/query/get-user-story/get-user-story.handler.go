@@ -52,6 +52,10 @@ func (c *GetUserStoryQueryHandler) Handle(ctx context.Context, query *GetUserSto
 	if parentURLFeature == "" {
 		return model_shared.NewResultWithValueFailure[model.UserStory](model_shared.NewError("ERROR_FEATURE", "Feature doesn't have a parent.")), nil
 	}
+	if resultFeature.Result().WorkItemType != model_shared.FeatureType {
+		return model_shared.NewResultWithValueFailure[model.UserStory](model_shared.NewError("ERROR_FEATURE", "Parent for User story is not feature.")), nil
+	}
+
 	feature := resultFeature.Result()
 	resultCommentsFeature := c.commentRepository.GetComments(parentURL)
 	if !resultComments.IsSuccess {

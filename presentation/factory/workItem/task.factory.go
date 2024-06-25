@@ -1,17 +1,30 @@
 package factory_workitem
 
-// import "github.com/RenzoReccio/project-management.worker/domain/model"
+import (
+	"context"
+	"fmt"
 
-// type Task struct {
-// }
+	application_sendtask "github.com/RenzoReccio/project-management.worker/application/task/event/send-task"
+	application_gettask "github.com/RenzoReccio/project-management.worker/application/task/query/get-task"
+	"github.com/RenzoReccio/project-management.worker/domain/model"
+	model_shared "github.com/RenzoReccio/project-management.worker/domain/model/shared"
+	"github.com/mehdihadeli/go-mediatr"
+)
 
-// func NewTask() IWorkItemType[model.Task] {
-// 	return &Task{}
-// }
+type TaskFactory struct {
+}
 
-// func (c Task) GetWorkItem(resourceURL string) (*model.Task, error) {
-// 	return nil, nil
-// }
-// func (c Task) SendWorkItem(workItem *model.Task) error {
-// 	return nil
-// }
+func NewTaskFactory() IWorkItem {
+	return &TaskFactory{}
+}
+
+func (c TaskFactory) ExecuteWorkItem(context context.Context, resourceURL string) {
+	resultTask, _ := mediatr.Send[*application_gettask.GetTaskQuery, *model_shared.ResultWithValue[model.Task]](
+		context, &application_gettask.GetTaskQuery{ResourceURL: resourceURL})
+	if !resultTask.IsSuccess {
+		fmt.Print(resultTask.Error)
+		return
+	}
+	sendTaskEvent := &application_sendtask.SendTaskEvent{Data: resultTask.Result()}
+	mediatr.Publish(context, sendTaskEvent)
+}

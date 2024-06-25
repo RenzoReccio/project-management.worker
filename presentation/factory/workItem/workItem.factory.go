@@ -10,6 +10,8 @@ func GetWorkItemFactory(workItemType string) IWorkItem {
 		return NewFeatureFactory()
 	case model_shared.UserStoryType:
 		return NewUserStoryFactory()
+	case model_shared.TaskType:
+		return NewTaskFactory()
 	default:
 		panic("Not implemented")
 	}
