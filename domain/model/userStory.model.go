@@ -23,6 +23,7 @@ type UserStory struct {
 	FeatureParent      *Feature
 	Url                string
 	Comments           *[]Comment
+	PageUrl            string
 }
 
 func NewUserStory(
@@ -48,6 +49,7 @@ func NewUserStory(
 	FeatureParent *Feature,
 	Url string,
 	Comments *[]Comment,
+	PageUrl string,
 ) *UserStory {
 	return &UserStory{
 		Id:                 Id,
@@ -72,5 +74,6 @@ func NewUserStory(
 		FeatureParent:      FeatureParent,
 		Url:                Url,
 		Comments:           Comments,
+		PageUrl:            PageUrl,
 	}
 }

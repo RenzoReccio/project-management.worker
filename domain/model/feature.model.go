@@ -26,6 +26,7 @@ type Feature struct {
 	Url             string
 	ParentEpic      *Epic
 	Comments        *[]Comment
+	PageUrl         string
 }
 
 func NewFeature(Id int,
@@ -50,7 +51,8 @@ func NewFeature(Id int,
 	Tags string,
 	Url string,
 	ParentEpic *Epic,
-	Comments *[]Comment) *Feature {
+	Comments *[]Comment,
+	PageUrl string) *Feature {
 	return &Feature{
 		Id:              Id,
 		AreaPath:        AreaPath,
@@ -75,5 +77,6 @@ func NewFeature(Id int,
 		Url:             Url,
 		ParentEpic:      ParentEpic,
 		Comments:        Comments,
+		PageUrl:         PageUrl,
 	}
 }

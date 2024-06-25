@@ -45,7 +45,7 @@ func (c *FeatureService) GetFeature(url string) (*model_shared.ResultWithValue[m
 		featureAzure.Fields.MicrosoftVSTSCommonBusinessValue, featureAzure.Fields.MicrosoftVSTSCommonTimeCriticality,
 		featureAzure.Fields.MicrosoftVSTSSchedulingEffort, featureAzure.Fields.MicrosoftVSTSSchedulingStartDate,
 		featureAzure.Fields.SystemDescription, featureAzure.Fields.SystemTags,
-		featureAzure.URL, nil, nil,
+		featureAzure.URL, nil, nil, featureAzure.Links.HTML.Href,
 	)), parentURL
 }
 
