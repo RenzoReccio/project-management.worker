@@ -2,6 +2,7 @@ package application_sendfeature
 
 import (
 	"context"
+	"errors"
 
 	"github.com/RenzoReccio/project-management.worker/domain/repository"
 )
@@ -19,6 +20,9 @@ func NewSendFeatureEventHandler(
 }
 
 func (c *SendFeatureEventHandler) Handle(ctx context.Context, event *SendFeatureEvent) error {
-	c.messageRepository.SendFeature(event.Data)
+	result := c.messageRepository.SendFeature(event.Data)
+	if !result.IsSuccess {
+		return errors.New(result.Error.Description)
+	}
 	return nil
 }

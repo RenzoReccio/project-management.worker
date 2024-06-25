@@ -8,6 +8,8 @@ func GetWorkItemFactory(workItemType string) IWorkItem {
 		return NewEpicFactory()
 	case model_shared.FeatureType:
 		return NewFeatureFactory()
+	case model_shared.UserStoryType:
+		return NewUserStoryFactory()
 	default:
 		panic("Not implemented")
 	}

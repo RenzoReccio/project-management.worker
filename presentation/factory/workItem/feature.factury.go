@@ -2,7 +2,6 @@ package factory_workitem
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 
 	application_sendfeature "github.com/RenzoReccio/project-management.worker/application/feature/event/send-feature"
@@ -25,8 +24,6 @@ func (c FeatureFactory) ExecuteWorkItem(context context.Context, resourceURL str
 		fmt.Print(resultFeature.Error)
 		return
 	}
-	foo_marshalled, _ := json.Marshal(resultFeature.Result())
-	fmt.Print(string(foo_marshalled))
 	featureSendEvent := &application_sendfeature.SendFeatureEvent{Data: resultFeature.Result()}
 	mediatr.Publish(context, featureSendEvent)
 }

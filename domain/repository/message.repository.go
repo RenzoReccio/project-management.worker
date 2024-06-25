@@ -8,4 +8,5 @@ import (
 type MessageRepository interface {
 	SendEpic(in *model.Epic) *model_shared.ResultWithValue[string]
 	SendFeature(in *model.Feature) *model_shared.ResultWithValue[string]
+	SendUserStory(in *model.UserStory) *model_shared.ResultWithValue[string]
 }

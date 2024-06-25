@@ -1,4 +1,4 @@
-package application_sendepic
+package application_senduserstory
 
 import (
 	"context"
@@ -7,20 +7,20 @@ import (
 	"github.com/RenzoReccio/project-management.worker/domain/repository"
 )
 
-type SendEpicEventHandler struct {
+type SendUserStoryEventHandler struct {
 	messageRepository repository.MessageRepository
 }
 
-func NewSendEpicEventHandler(
+func NewSendUserStoryEventHandler(
 	messageRepository repository.MessageRepository,
-) *SendEpicEventHandler {
-	return &SendEpicEventHandler{
+) *SendUserStoryEventHandler {
+	return &SendUserStoryEventHandler{
 		messageRepository: messageRepository,
 	}
 }
 
-func (c *SendEpicEventHandler) Handle(ctx context.Context, event *SendEpicEvent) error {
-	result := c.messageRepository.SendEpic(event.Data)
+func (c *SendUserStoryEventHandler) Handle(ctx context.Context, event *SendUserStoryEvent) error {
+	result := c.messageRepository.SendUserStory(event.Data)
 	if !result.IsSuccess {
 		return errors.New(result.Error.Description)
 	}

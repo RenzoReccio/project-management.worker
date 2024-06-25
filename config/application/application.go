@@ -7,6 +7,8 @@ import (
 	application_sendfeature "github.com/RenzoReccio/project-management.worker/application/feature/event/send-feature"
 	application_getfeature "github.com/RenzoReccio/project-management.worker/application/feature/query/get-feature"
 	application_gettask "github.com/RenzoReccio/project-management.worker/application/task/query/get-task"
+	application_senduserstory "github.com/RenzoReccio/project-management.worker/application/userStory/event/send-user-story"
+	application_getuserstory "github.com/RenzoReccio/project-management.worker/application/userStory/query/get-user-story"
 	application_getworkitemtype "github.com/RenzoReccio/project-management.worker/application/workItemType/query/get-work-item-type"
 	config_service "github.com/RenzoReccio/project-management.worker/config/service"
 	"github.com/RenzoReccio/project-management.worker/domain/model"
@@ -23,13 +25,21 @@ func InitApplication(configService *config_service.ConfigService) {
 	getFeatureQueryHandler := application_getfeature.NewGetFeatureQueryHandler(configService.EpicRepository, configService.CommentRepository, configService.FeatureRepository)
 	sendFeatureEventHandler := application_sendfeature.NewSendFeatureEventHandler(configService.MessageRepository)
 
+	getUserStoryQueryHandler := application_getuserstory.NewGetUserStoryQueryHandler(configService.EpicRepository,
+		configService.CommentRepository,
+		configService.FeatureRepository,
+		configService.UserStoryRepository)
+
+	sendUserStoryEventHandler := application_senduserstory.NewSendUserStoryEventHandler(configService.MessageRepository)
 	mediatr.RegisterRequestHandler[*application_createevent.CreateProductCommand, *model_shared.ResultWithValue[model.Event]](createEventCommandHandler)
 	mediatr.RegisterRequestHandler[*application_gettask.GetTaskQuery, *model.Task](getTaskCommandHandler)
 	mediatr.RegisterRequestHandler[*application_getworkitemtype.GetWorkItemTypeQuery, *model_shared.ResultWithValue[model.WorkItemType]](getWorkItemTypeQueryHandler)
 	mediatr.RegisterRequestHandler[*application_getepic.GetEpicQuery, *model_shared.ResultWithValue[model.Epic]](getEpicQueryHandler)
 	mediatr.RegisterRequestHandler[*application_getfeature.GetFeatureQuery, *model_shared.ResultWithValue[model.Feature]](getFeatureQueryHandler)
+	mediatr.RegisterRequestHandler[*application_getuserstory.GetUserStoryQuery, *model_shared.ResultWithValue[model.UserStory]](getUserStoryQueryHandler)
 
 	mediatr.RegisterNotificationHandlers[*application_sendepic.SendEpicEvent](sendEpicEventHandler)
 	mediatr.RegisterNotificationHandlers[*application_sendfeature.SendFeatureEvent](sendFeatureEventHandler)
+	mediatr.RegisterNotificationHandlers[*application_senduserstory.SendUserStoryEvent](sendUserStoryEventHandler)
 
 }
