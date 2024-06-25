@@ -5,7 +5,6 @@ import (
 	model_shared "github.com/RenzoReccio/project-management.worker/domain/model/shared"
 )
 
-type MessageRepository interface {
-	SendEpic(in *model.Epic) *model_shared.ResultWithValue[string]
-	SendFeature(in *model.Feature) *model_shared.ResultWithValue[string]
+type FeatureRepository interface {
+	GetFeature(url string) (*model_shared.ResultWithValue[model.Feature], string)
 }

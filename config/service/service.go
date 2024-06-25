@@ -11,6 +11,7 @@ import (
 	"github.com/RenzoReccio/project-management.worker/domain/repository"
 	azureapi_comment "github.com/RenzoReccio/project-management.worker/infrastructure/azure-api/comment"
 	azureapi_epic "github.com/RenzoReccio/project-management.worker/infrastructure/azure-api/epic"
+	azureapi_feature "github.com/RenzoReccio/project-management.worker/infrastructure/azure-api/feature"
 	azureapi_task "github.com/RenzoReccio/project-management.worker/infrastructure/azure-api/task"
 	azureapi_workItemType "github.com/RenzoReccio/project-management.worker/infrastructure/azure-api/workItemType"
 	mongoInfraestructure "github.com/RenzoReccio/project-management.worker/infrastructure/mongo/event"
@@ -27,6 +28,7 @@ type ConfigService struct {
 	TaskRepository         repository.TaskRepository
 	WorkItemTypeRepository repository.WorkItemTypeRepository
 	MessageRepository      repository.MessageRepository
+	FeatureRepository      repository.FeatureRepository
 }
 
 func InitMongoDatabase(mongoDBConnetion string) *mongo.Database {
@@ -64,6 +66,7 @@ func NewConfigService() *ConfigService {
 		WorkItemTypeRepository: azureapi_workItemType.NewWorkItemTypeService(client, headerAPI),
 		EpicRepository:         azureapi_epic.NewWorkItemTypeService(client, headerAPI),
 		CommentRepository:      azureapi_comment.NewCommentService(client, headerAPI),
-		MessageRepository:      pubsub_message.NewMessageService(config.PubSubConnection),
+		MessageRepository:      pubsub_message.NewMessageService(config.PubSubClient),
+		FeatureRepository:      azureapi_feature.NewFeatureService(client, headerAPI),
 	}
 }

@@ -2,13 +2,12 @@ package controllers
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 
 	model_shared "github.com/RenzoReccio/project-management.worker/domain/model/shared"
+	factory_workitem "github.com/RenzoReccio/project-management.worker/presentation/factory/workItem"
 
-	application_getepic "github.com/RenzoReccio/project-management.worker/application/epic/query"
 	application_createevent "github.com/RenzoReccio/project-management.worker/application/event/command/create-event"
 	application_getworkitemtype "github.com/RenzoReccio/project-management.worker/application/workItemType/query/get-work-item-type"
 	"github.com/RenzoReccio/project-management.worker/domain/model"
@@ -43,7 +42,6 @@ func ProcessEvent(req *application_createevent.CreateProductCommand) {
 		return
 	}
 	event := resultEvent.Result()
-	fmt.Println(event)
 
 	getWorkItemTypeQuery := &application_getworkitemtype.GetWorkItemTypeQuery{
 		ResourceURL: event.ResourceUrl,
@@ -60,19 +58,6 @@ func ProcessEvent(req *application_createevent.CreateProductCommand) {
 }
 
 func ExecuteEvent(context context.Context, event *model.Event, workItemType *model.WorkItemType) {
-	var result any
-	// mediatr.Publish()
-	switch *workItemType.Type {
-	case model_shared.EpicType:
-		result, _ = mediatr.Send[*application_getepic.GetEpicQuery, *model_shared.ResultWithValue[model.Epic]](context, &application_getepic.GetEpicQuery{ResourceURL: event.ResourceUrl})
-
-	default:
-		panic("Not implemented")
-	}
-	b, err := json.Marshal(result)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(b))
+	factory := factory_workitem.GetWorkItemFactory(*workItemType.Type)
+	factory.ExecuteWorkItem(context, event.ResourceUrl)
 }

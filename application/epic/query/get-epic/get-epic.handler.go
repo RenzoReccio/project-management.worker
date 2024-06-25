@@ -12,18 +12,15 @@ import (
 type GetEpicQueryHandler struct {
 	epicRepository    repository.EpicRepository
 	commentRepository repository.CommentRepository
-	messageRepository repository.MessageRepository
 }
 
 func NewGetEpicQueryHandler(
 	epicRepository repository.EpicRepository,
 	commentRepository repository.CommentRepository,
-	messageRepository repository.MessageRepository,
 ) *GetEpicQueryHandler {
 	return &GetEpicQueryHandler{
 		epicRepository:    epicRepository,
 		commentRepository: commentRepository,
-		messageRepository: messageRepository,
 	}
 }
 
@@ -41,6 +38,5 @@ func (c *GetEpicQueryHandler) Handle(ctx context.Context, query *GetEpicQuery) (
 	epic := resultEpic.Result()
 	epic.Comments = resultComments.Result()
 
-	c.messageRepository.SendEpic(epic)
 	return model_shared.NewResultWithValueSuccess[model.Epic](epic), nil
 }
