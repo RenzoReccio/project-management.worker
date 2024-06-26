@@ -7,4 +7,5 @@ import (
 
 type EventRepository interface {
 	InsertEvent(in *model.Event) *model_shared.ResultWithValue[model.Event]
+	CloseEvent(in string) *model_shared.Result
 }

@@ -17,7 +17,7 @@ func NewCreateEventCommandHandler(eventRepository repository.EventRepository) *C
 	return &CreateEventCommandHandler{eventRepository: eventRepository}
 }
 
-func (c *CreateEventCommandHandler) Handle(ctx context.Context, command *CreateProductCommand) (*model_shared.ResultWithValue[model.Event], error) {
+func (c *CreateEventCommandHandler) Handle(ctx context.Context, command *CreateEventCommand) (*model_shared.ResultWithValue[model.Event], error) {
 	resourceURL := command.ResourceContainers.Project.BaseURL + command.ResourceContainers.Project.ID + "/_apis/wit/workItems/" + getWorkItemId(command)
 	event := model.NewEvent(command.ID, command.SubscriptionID, command.EventType, command.CreatedDate, command.Resource.ID, resourceURL)
 	resultcreatedEvent := c.eventRepository.InsertEvent(event)
@@ -28,7 +28,7 @@ func (c *CreateEventCommandHandler) Handle(ctx context.Context, command *CreateP
 	return model_shared.NewResultWithValueSuccess[model.Event](resultcreatedEvent.Result()), nil
 }
 
-func getWorkItemId(command *CreateProductCommand) string {
+func getWorkItemId(command *CreateEventCommand) string {
 	if command.Resource.WorkItemId != 0 {
 		return strconv.Itoa(command.Resource.WorkItemId)
 	}

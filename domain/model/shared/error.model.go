@@ -2,6 +2,7 @@ package model_shared
 
 import (
 	"fmt"
+	"log"
 )
 
 // Error struct to represent an error with a code and description
@@ -23,6 +24,7 @@ func NullOrEmpty(typeName string, attribute string) *Error {
 }
 
 func NewError(code string, description string) *Error {
+	log.Println(code + ": " + description)
 	return &Error{
 		Code:        code,
 		Description: description,

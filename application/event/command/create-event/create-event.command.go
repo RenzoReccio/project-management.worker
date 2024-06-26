@@ -2,7 +2,7 @@ package application_createevent
 
 import "time"
 
-type CreateProductCommand struct {
+type CreateEventCommand struct {
 	SubscriptionID  string      `json:"subscriptionId"`
 	NotificationID  int         `json:"notificationId"`
 	ID              string      `json:"id"`
