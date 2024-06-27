@@ -41,6 +41,7 @@ func (c *GetFeatureQueryHandler) Handle(ctx context.Context, query *GetFeatureQu
 	}
 	feature.Comments = resultComments.Result()
 
+	//Epic
 	resultEpic := c.epicRepository.GetEpic(parentURL)
 	if !resultEpic.IsSuccess {
 		return model_shared.NewResultWithValueFailure[model.Feature](model_shared.NewError("ERROR_EPIC", "Failure getting epic.")), nil
