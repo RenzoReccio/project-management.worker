@@ -3,17 +3,15 @@ package model
 import "time"
 
 type Comment struct {
-	Date           time.Time
-	User           string
-	UserUniqueName string
-	Text           string
+	Date      time.Time
+	Text      string
+	CreatedBy *Person
 }
 
-func NewComment(date time.Time, user string, userUniqueName string, text string) *Comment {
+func NewComment(date time.Time, CreatedBy *Person, text string) *Comment {
 	return &Comment{
-		Date:           date,
-		User:           user,
-		UserUniqueName: userUniqueName,
-		Text:           text,
+		Date:      date,
+		CreatedBy: CreatedBy,
+		Text:      text,
 	}
 }

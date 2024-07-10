@@ -1,6 +1,10 @@
 package factory_workitem
 
-import model_shared "github.com/RenzoReccio/project-management.worker/domain/model/shared"
+import (
+	"log"
+
+	model_shared "github.com/RenzoReccio/project-management.worker/domain/model/shared"
+)
 
 func GetWorkItemFactory(workItemType string) IWorkItem {
 	switch workItemType {
@@ -13,7 +17,8 @@ func GetWorkItemFactory(workItemType string) IWorkItem {
 	case model_shared.TaskType:
 		return NewTaskFactory()
 	default:
-		panic("Not implemented")
+		log.Printf("Work item type not implemented %s", workItemType)
+		return nil
 	}
 
 }

@@ -32,7 +32,8 @@ func (c *CommentService) GetComments(url string) *model_shared.ResultWithValue[[
 	commentsAzure := new(CommentAzure)
 	azureapi_utils.GetJson(resp, commentsAzure)
 	comments := azureapi_utils.Map(commentsAzure.Comments, func(item CommentsAzure) model.Comment {
-		return *model.NewComment(item.CreatedDate, item.CreatedBy.DisplayName, item.CreatedBy.UniqueName, item.Text)
+		createdBy := model.NewPerson(item.CreatedBy.DisplayName, item.CreatedBy.ID, item.CreatedBy.UniqueName)
+		return *model.NewComment(item.CreatedDate, createdBy, item.Text)
 	})
 
 	return model_shared.NewResultWithValueSuccess[[]model.Comment](&comments)

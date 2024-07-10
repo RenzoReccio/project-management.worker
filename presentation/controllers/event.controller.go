@@ -65,5 +65,8 @@ func CloseEvent(context context.Context, event *model.Event) {
 
 func ExecuteEvent(context context.Context, event *model.Event, workItemType *model.WorkItemType) {
 	factory := factory_workitem.GetWorkItemFactory(*workItemType.Type)
+	if factory == nil {
+		return
+	}
 	factory.ExecuteWorkItem(context, event.ResourceUrl)
 }

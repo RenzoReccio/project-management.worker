@@ -2,6 +2,8 @@ package factory_workitem
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 
 	application_sendepic "github.com/RenzoReccio/project-management.worker/application/epic/event/send-epic"
 	application_getepic "github.com/RenzoReccio/project-management.worker/application/epic/query/get-epic"
@@ -22,6 +24,14 @@ func (c EpicFactory) ExecuteWorkItem(context context.Context, resourceURL string
 	if !resultEpic.IsSuccess {
 		return
 	}
+	user := resultEpic.Result()
+	b, err := json.Marshal(user)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(b))
+
 	epicSendEvent := &application_sendepic.SendEpicEvent{Data: resultEpic.Result()}
 	mediatr.Publish(context, epicSendEvent)
 }
