@@ -18,3 +18,7 @@ func Map[T, V any](ts []T, fn func(T) V) []V {
 	}
 	return result
 }
+
+func FloatToInt(jsonNumber float64) int {
+	return int(jsonNumber)
+}

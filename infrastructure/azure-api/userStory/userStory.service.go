@@ -36,11 +36,13 @@ func (c *UserStoryService) GetUserStory(url string) (*model_shared.ResultWithVal
 		userStoryAzure.Fields.SystemAssignedTo.UniqueName)
 	parentURL := getParentURL(userStoryAzure)
 	return model_shared.NewResultWithValueSuccess[model.UserStory](model.NewUserStory(
-		userStoryAzure.ID, userStoryAzure.Fields.SystemAreaPath, userStoryAzure.Fields.SystemTeamProject,
+		azureapi_utils.FloatToInt(userStoryAzure.ID),
+		userStoryAzure.Fields.SystemAreaPath, userStoryAzure.Fields.SystemTeamProject,
 		userStoryAzure.Fields.SystemIterationPath, userStoryAzure.Fields.SystemWorkItemType,
 		userStoryAzure.Fields.SystemState, userStoryAzure.Fields.SystemReason, assignedPerson,
 		userStoryAzure.Fields.SystemTitle, userStoryAzure.Fields.SystemBoardColumn, userStoryAzure.Fields.SystemBoardColumnDone,
-		userStoryAzure.Fields.MicrosoftVSTSCommonPriority, userStoryAzure.Fields.MicrosoftVSTSCommonValueArea,
+		azureapi_utils.FloatToInt(userStoryAzure.Fields.MicrosoftVSTSCommonPriority),
+		userStoryAzure.Fields.MicrosoftVSTSCommonValueArea,
 		userStoryAzure.Fields.MicrosoftVSTSCommonRisk, userStoryAzure.Fields.WEFE5A77436CD8D4FD8931A44E8FD000363KanbanColumn,
 		userStoryAzure.Fields.WEFE5A77436CD8D4FD8931A44E8FD000363KanbanColumnDone, userStoryAzure.Fields.SystemDescription,
 		userStoryAzure.Fields.MicrosoftVSTSCommonAcceptanceCriteria, userStoryAzure.Fields.SystemTags,

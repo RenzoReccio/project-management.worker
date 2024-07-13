@@ -36,12 +36,15 @@ func (c *TaskService) GetTask(taskURL string) (*model_shared.ResultWithValue[mod
 		taskAzure.Fields.SystemAssignedTo.UniqueName)
 	parentURL := getParentURL(taskAzure)
 	return model_shared.NewResultWithValueSuccess[model.Task](model.NewTask(
-		taskAzure.ID, taskAzure.Fields.SystemAreaPath, taskAzure.Fields.SystemTeamProject, taskAzure.Fields.SystemIterationPath,
+		azureapi_utils.FloatToInt(taskAzure.ID), taskAzure.Fields.SystemAreaPath, taskAzure.Fields.SystemTeamProject, taskAzure.Fields.SystemIterationPath,
 		taskAzure.Fields.SystemWorkItemType, taskAzure.Fields.SystemState,
 		taskAzure.Fields.SystemReason, assignedPerson, taskAzure.Fields.SystemTitle,
-		taskAzure.Fields.MicrosoftVSTSSchedulingRemainingWork, taskAzure.Fields.MicrosoftVSTSSchedulingOriginalEstimate,
-		taskAzure.Fields.MicrosoftVSTSSchedulingCompletedWork, taskAzure.Fields.MicrosoftVSTSCommonActivity,
-		taskAzure.Fields.MicrosoftVSTSCommonPriority, taskAzure.Fields.SystemDescription, taskAzure.Fields.SystemTags,
+		azureapi_utils.FloatToInt(taskAzure.Fields.MicrosoftVSTSSchedulingRemainingWork),
+		azureapi_utils.FloatToInt(taskAzure.Fields.MicrosoftVSTSSchedulingOriginalEstimate),
+		azureapi_utils.FloatToInt(taskAzure.Fields.MicrosoftVSTSSchedulingCompletedWork),
+		taskAzure.Fields.MicrosoftVSTSCommonActivity,
+		azureapi_utils.FloatToInt(taskAzure.Fields.MicrosoftVSTSCommonPriority),
+		taskAzure.Fields.SystemDescription, taskAzure.Fields.SystemTags,
 		nil, taskAzure.URL, nil, taskAzure.Links.HTML.Href,
 	),
 	), parentURL

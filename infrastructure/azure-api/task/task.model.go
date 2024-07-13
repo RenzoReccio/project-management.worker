@@ -1,10 +1,12 @@
 package azureapi_task
 
-import "time"
+import (
+	"time"
+)
 
 type TaskAzure struct {
-	ID     int `json:"id"`
-	Rev    int `json:"rev"`
+	ID     float64 `json:"id"`
+	Rev    float64 `json:"rev"`
 	Fields struct {
 		SystemAreaPath      string `json:"System.AreaPath"`
 		SystemTeamProject   string `json:"System.TeamProject"`
@@ -53,11 +55,11 @@ type TaskAzure struct {
 			ImageURL   string `json:"imageUrl"`
 			Descriptor string `json:"descriptor"`
 		} `json:"System.ChangedBy"`
-		SystemCommentCount                      int       `json:"System.CommentCount"`
+		SystemCommentCount                      float64   `json:"System.CommentCount"`
 		SystemTitle                             string    `json:"System.Title"`
-		MicrosoftVSTSSchedulingRemainingWork    int       `json:"Microsoft.VSTS.Scheduling.RemainingWork"`
-		MicrosoftVSTSSchedulingOriginalEstimate int       `json:"Microsoft.VSTS.Scheduling.OriginalEstimate"`
-		MicrosoftVSTSSchedulingCompletedWork    int       `json:"Microsoft.VSTS.Scheduling.CompletedWork"`
+		MicrosoftVSTSSchedulingRemainingWork    float64   `json:"Microsoft.VSTS.Scheduling.RemainingWork"`
+		MicrosoftVSTSSchedulingOriginalEstimate float64   `json:"Microsoft.VSTS.Scheduling.OriginalEstimate"`
+		MicrosoftVSTSSchedulingCompletedWork    float64   `json:"Microsoft.VSTS.Scheduling.CompletedWork"`
 		MicrosoftVSTSCommonActivity             string    `json:"Microsoft.VSTS.Common.Activity"`
 		MicrosoftVSTSCommonStateChangeDate      time.Time `json:"Microsoft.VSTS.Common.StateChangeDate"`
 		MicrosoftVSTSCommonActivatedDate        time.Time `json:"Microsoft.VSTS.Common.ActivatedDate"`
@@ -74,11 +76,11 @@ type TaskAzure struct {
 			ImageURL   string `json:"imageUrl"`
 			Descriptor string `json:"descriptor"`
 		} `json:"Microsoft.VSTS.Common.ActivatedBy"`
-		MicrosoftVSTSCommonPriority        int    `json:"Microsoft.VSTS.Common.Priority"`
-		MicrosoftVSTSBuildIntegrationBuild string `json:"Microsoft.VSTS.Build.IntegrationBuild"`
-		SystemDescription                  string `json:"System.Description"`
-		SystemTags                         string `json:"System.Tags"`
-		SystemParent                       int    `json:"System.Parent"`
+		MicrosoftVSTSCommonPriority        float64 `json:"Microsoft.VSTS.Common.Priority"`
+		MicrosoftVSTSBuildIntegrationBuild string  `json:"Microsoft.VSTS.Build.IntegrationBuild"`
+		SystemDescription                  string  `json:"System.Description"`
+		SystemTags                         string  `json:"System.Tags"`
+		SystemParent                       float64 `json:"System.Parent"`
 	} `json:"fields"`
 	Relations []struct {
 		Rel        string `json:"rel"`

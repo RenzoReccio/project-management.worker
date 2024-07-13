@@ -3,8 +3,8 @@ package azureapi_userstory
 import "time"
 
 type UserStoryAzure struct {
-	ID     int `json:"id"`
-	Rev    int `json:"rev"`
+	ID     float64 `json:"id"`
+	Rev    float64 `json:"rev"`
 	Fields struct {
 		SystemAreaPath      string `json:"System.AreaPath"`
 		SystemTeamProject   string `json:"System.TeamProject"`
@@ -53,11 +53,11 @@ type UserStoryAzure struct {
 			ImageURL   string `json:"imageUrl"`
 			Descriptor string `json:"descriptor"`
 		} `json:"System.ChangedBy"`
-		SystemCommentCount                 int       `json:"System.CommentCount"`
+		SystemCommentCount                 float64   `json:"System.CommentCount"`
 		SystemTitle                        string    `json:"System.Title"`
 		SystemBoardColumn                  string    `json:"System.BoardColumn"`
 		SystemBoardColumnDone              bool      `json:"System.BoardColumnDone"`
-		MicrosoftVSTSSchedulingStoryPoints int       `json:"Microsoft.VSTS.Scheduling.StoryPoints"`
+		MicrosoftVSTSSchedulingStoryPoints float64   `json:"Microsoft.VSTS.Scheduling.StoryPoints"`
 		MicrosoftVSTSCommonStateChangeDate time.Time `json:"Microsoft.VSTS.Common.StateChangeDate"`
 		MicrosoftVSTSCommonActivatedDate   time.Time `json:"Microsoft.VSTS.Common.ActivatedDate"`
 		MicrosoftVSTSCommonActivatedBy     struct {
@@ -73,15 +73,15 @@ type UserStoryAzure struct {
 			ImageURL   string `json:"imageUrl"`
 			Descriptor string `json:"descriptor"`
 		} `json:"Microsoft.VSTS.Common.ActivatedBy"`
-		MicrosoftVSTSCommonPriority                         int    `json:"Microsoft.VSTS.Common.Priority"`
-		MicrosoftVSTSCommonValueArea                        string `json:"Microsoft.VSTS.Common.ValueArea"`
-		MicrosoftVSTSCommonRisk                             string `json:"Microsoft.VSTS.Common.Risk"`
-		WEFE5A77436CD8D4FD8931A44E8FD000363KanbanColumn     string `json:"WEF_E5A77436CD8D4FD8931A44E8FD000363_Kanban.Column"`
-		WEFE5A77436CD8D4FD8931A44E8FD000363KanbanColumnDone bool   `json:"WEF_E5A77436CD8D4FD8931A44E8FD000363_Kanban.Column.Done"`
-		SystemDescription                                   string `json:"System.Description"`
-		MicrosoftVSTSCommonAcceptanceCriteria               string `json:"Microsoft.VSTS.Common.AcceptanceCriteria"`
-		SystemTags                                          string `json:"System.Tags"`
-		SystemParent                                        int    `json:"System.Parent"`
+		MicrosoftVSTSCommonPriority                         float64 `json:"Microsoft.VSTS.Common.Priority"`
+		MicrosoftVSTSCommonValueArea                        string  `json:"Microsoft.VSTS.Common.ValueArea"`
+		MicrosoftVSTSCommonRisk                             string  `json:"Microsoft.VSTS.Common.Risk"`
+		WEFE5A77436CD8D4FD8931A44E8FD000363KanbanColumn     string  `json:"WEF_E5A77436CD8D4FD8931A44E8FD000363_Kanban.Column"`
+		WEFE5A77436CD8D4FD8931A44E8FD000363KanbanColumnDone bool    `json:"WEF_E5A77436CD8D4FD8931A44E8FD000363_Kanban.Column.Done"`
+		SystemDescription                                   string  `json:"System.Description"`
+		MicrosoftVSTSCommonAcceptanceCriteria               string  `json:"Microsoft.VSTS.Common.AcceptanceCriteria"`
+		SystemTags                                          string  `json:"System.Tags"`
+		SystemParent                                        float64 `json:"System.Parent"`
 	} `json:"fields"`
 	Relations []struct {
 		Rel        string `json:"rel"`

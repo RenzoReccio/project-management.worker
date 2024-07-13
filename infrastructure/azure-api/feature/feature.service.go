@@ -36,14 +36,18 @@ func (c *FeatureService) GetFeature(url string) (*model_shared.ResultWithValue[m
 		featureAzure.Fields.SystemAssignedTo.UniqueName)
 	parentURL := getParentURL(featureAzure)
 	return model_shared.NewResultWithValueSuccess[model.Feature](model.NewFeature(
-		featureAzure.ID, featureAzure.Fields.SystemAreaPath, featureAzure.Fields.SystemTeamProject,
+		azureapi_utils.FloatToInt(featureAzure.ID),
+		featureAzure.Fields.SystemAreaPath, featureAzure.Fields.SystemTeamProject,
 		featureAzure.Fields.SystemIterationPath, featureAzure.Fields.SystemWorkItemType,
 		featureAzure.Fields.SystemState, featureAzure.Fields.SystemReason, assignedPerson,
 		featureAzure.Fields.SystemCreatedDate, featureAzure.Fields.SystemTitle,
-		featureAzure.Fields.MicrosoftVSTSCommonPriority, featureAzure.Fields.MicrosoftVSTSCommonValueArea,
+		azureapi_utils.FloatToInt(featureAzure.Fields.MicrosoftVSTSCommonPriority),
+		featureAzure.Fields.MicrosoftVSTSCommonValueArea,
 		featureAzure.Fields.MicrosoftVSTSCommonRisk, featureAzure.Fields.MicrosoftVSTSSchedulingTargetDate,
-		featureAzure.Fields.MicrosoftVSTSCommonBusinessValue, featureAzure.Fields.MicrosoftVSTSCommonTimeCriticality,
-		featureAzure.Fields.MicrosoftVSTSSchedulingEffort, featureAzure.Fields.MicrosoftVSTSSchedulingStartDate,
+		azureapi_utils.FloatToInt(featureAzure.Fields.MicrosoftVSTSCommonBusinessValue),
+		azureapi_utils.FloatToInt(featureAzure.Fields.MicrosoftVSTSCommonTimeCriticality),
+		azureapi_utils.FloatToInt(featureAzure.Fields.MicrosoftVSTSSchedulingEffort),
+		featureAzure.Fields.MicrosoftVSTSSchedulingStartDate,
 		featureAzure.Fields.SystemDescription, featureAzure.Fields.SystemTags,
 		featureAzure.URL, nil, nil, featureAzure.Links.HTML.Href,
 	)), parentURL

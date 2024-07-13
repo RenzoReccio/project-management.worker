@@ -32,12 +32,17 @@ func (c *EpicService) GetEpic(url string) *model_shared.ResultWithValue[model.Ep
 	epicAzure := new(EpicAzure)
 	azureapi_utils.GetJson(resp, epicAzure)
 
-	return model_shared.NewResultWithValueSuccess[model.Epic](model.NewEpic(epicAzure.ID, epicAzure.Fields.SystemAreaPath, epicAzure.Fields.SystemTeamProject,
+	return model_shared.NewResultWithValueSuccess[model.Epic](model.NewEpic(
+		azureapi_utils.FloatToInt(epicAzure.ID), epicAzure.Fields.SystemAreaPath, epicAzure.Fields.SystemTeamProject,
 		epicAzure.Fields.SystemIterationPath, epicAzure.Fields.SystemWorkItemType, epicAzure.Fields.SystemState,
 		epicAzure.Fields.SystemReason,
 		model.NewPerson(epicAzure.Fields.SystemAssignedTo.DisplayName, epicAzure.Fields.SystemAssignedTo.ID, epicAzure.Fields.SystemAssignedTo.UniqueName),
-		epicAzure.Fields.SystemCreatedDate, epicAzure.Fields.SystemTitle, epicAzure.Fields.SystemDescription, epicAzure.Fields.MicrosoftVSTSCommonPriority,
-		epicAzure.Fields.MicrosoftVSTSCommonValueArea, epicAzure.Fields.MicrosoftVSTSCommonRisk, epicAzure.Fields.MicrosoftVSTSCommonBusinessValue, epicAzure.Fields.MicrosoftVSTSCommonTimeCriticality,
-		epicAzure.Fields.MicrosoftVSTSSchedulingEffort, epicAzure.Fields.MicrosoftVSTSSchedulingStartDate, epicAzure.Fields.MicrosoftVSTSSchedulingTargetDate,
+		epicAzure.Fields.SystemCreatedDate, epicAzure.Fields.SystemTitle, epicAzure.Fields.SystemDescription,
+		azureapi_utils.FloatToInt(epicAzure.Fields.MicrosoftVSTSCommonPriority),
+		epicAzure.Fields.MicrosoftVSTSCommonValueArea, epicAzure.Fields.MicrosoftVSTSCommonRisk,
+		azureapi_utils.FloatToInt(epicAzure.Fields.MicrosoftVSTSCommonBusinessValue),
+		azureapi_utils.FloatToInt(epicAzure.Fields.MicrosoftVSTSCommonTimeCriticality),
+		azureapi_utils.FloatToInt(epicAzure.Fields.MicrosoftVSTSSchedulingEffort),
+		epicAzure.Fields.MicrosoftVSTSSchedulingStartDate, epicAzure.Fields.MicrosoftVSTSSchedulingTargetDate,
 		epicAzure.URL, epicAzure.Fields.SystemTags, nil, epicAzure.Links.HTML.Href))
 }

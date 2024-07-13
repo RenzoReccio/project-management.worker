@@ -3,8 +3,8 @@ package azureapi_epic
 import "time"
 
 type EpicAzure struct {
-	ID     int `json:"id"`
-	Rev    int `json:"rev"`
+	ID     float64 `json:"id"`
+	Rev    float64 `json:"rev"`
 	Fields struct {
 		SystemAreaPath      string `json:"System.AreaPath"`
 		SystemTeamProject   string `json:"System.TeamProject"`
@@ -53,7 +53,7 @@ type EpicAzure struct {
 			ImageURL   string `json:"imageUrl"`
 			Descriptor string `json:"descriptor"`
 		} `json:"System.ChangedBy"`
-		SystemCommentCount                 int       `json:"System.CommentCount"`
+		SystemCommentCount                 float64   `json:"System.CommentCount"`
 		SystemTitle                        string    `json:"System.Title"`
 		MicrosoftVSTSCommonStateChangeDate time.Time `json:"Microsoft.VSTS.Common.StateChangeDate"`
 		MicrosoftVSTSCommonActivatedDate   time.Time `json:"Microsoft.VSTS.Common.ActivatedDate"`
@@ -70,13 +70,13 @@ type EpicAzure struct {
 			ImageURL   string `json:"imageUrl"`
 			Descriptor string `json:"descriptor"`
 		} `json:"Microsoft.VSTS.Common.ActivatedBy"`
-		MicrosoftVSTSCommonPriority        int       `json:"Microsoft.VSTS.Common.Priority"`
+		MicrosoftVSTSCommonPriority        float64   `json:"Microsoft.VSTS.Common.Priority"`
 		MicrosoftVSTSCommonValueArea       string    `json:"Microsoft.VSTS.Common.ValueArea"`
 		MicrosoftVSTSCommonRisk            string    `json:"Microsoft.VSTS.Common.Risk"`
 		MicrosoftVSTSSchedulingTargetDate  time.Time `json:"Microsoft.VSTS.Scheduling.TargetDate"`
-		MicrosoftVSTSCommonBusinessValue   int       `json:"Microsoft.VSTS.Common.BusinessValue"`
-		MicrosoftVSTSCommonTimeCriticality int       `json:"Microsoft.VSTS.Common.TimeCriticality"`
-		MicrosoftVSTSSchedulingEffort      int       `json:"Microsoft.VSTS.Scheduling.Effort"`
+		MicrosoftVSTSCommonBusinessValue   float64   `json:"Microsoft.VSTS.Common.BusinessValue"`
+		MicrosoftVSTSCommonTimeCriticality float64   `json:"Microsoft.VSTS.Common.TimeCriticality"`
+		MicrosoftVSTSSchedulingEffort      float64   `json:"Microsoft.VSTS.Scheduling.Effort"`
 		MicrosoftVSTSSchedulingStartDate   time.Time `json:"Microsoft.VSTS.Scheduling.StartDate"`
 		SystemDescription                  string    `json:"System.Description"`
 		SystemTags                         string    `json:"System.Tags"`
