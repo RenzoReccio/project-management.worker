@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	model_shared "github.com/RenzoReccio/project-management.worker/domain/model/shared"
+	"github.com/RenzoReccio/project-management.worker/domain/repository"
 	factory_workitem "github.com/RenzoReccio/project-management.worker/presentation/factory/workItem"
 
 	application_closeevent "github.com/RenzoReccio/project-management.worker/application/event/command/close-event"
@@ -35,6 +36,8 @@ func (u *EventController) InsertEvent(c *gin.Context) {
 }
 
 func ProcessEvent(req *application_createevent.CreateEventCommand) {
+	repository.EventLogger.InsertLog(req.Resource.URL, "Start processing.")
+
 	context := context.Background()
 
 	resultEvent, _ := mediatr.Send[*application_createevent.CreateEventCommand, *model_shared.ResultWithValue[model.Event]](context, req)
@@ -55,6 +58,7 @@ func ProcessEvent(req *application_createevent.CreateEventCommand) {
 	}
 	ExecuteEvent(context, event, resultgetWorkItemTypeQuery.Result())
 	CloseEvent(context, event)
+	repository.EventLogger.InsertLog(req.Resource.URL, "End processing.")
 }
 
 func CloseEvent(context context.Context, event *model.Event) {

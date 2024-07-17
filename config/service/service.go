@@ -16,6 +16,7 @@ import (
 	azureapi_userstory "github.com/RenzoReccio/project-management.worker/infrastructure/azure-api/userStory"
 	azureapi_workItemType "github.com/RenzoReccio/project-management.worker/infrastructure/azure-api/workItemType"
 	mongoInfraestructure "github.com/RenzoReccio/project-management.worker/infrastructure/mongo/event"
+	mongoInfraestructure_eventlog "github.com/RenzoReccio/project-management.worker/infrastructure/mongo/eventlog"
 	pubsub_message "github.com/RenzoReccio/project-management.worker/infrastructure/pub-sub"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -62,6 +63,9 @@ func NewConfigService() *ConfigService {
 
 	headerAPI := basicAuth("user", config.AzureToken)
 	client := &http.Client{Timeout: 10 * time.Second}
+
+	repository.EventLogger = mongoInfraestructure_eventlog.NewEventLogService(mongoDB)
+
 	return &ConfigService{
 		EventRepository:        mongoInfraestructure.NewEventService(mongoDB),
 		TaskRepository:         azureapi_task.NewTaskService(client, headerAPI),
