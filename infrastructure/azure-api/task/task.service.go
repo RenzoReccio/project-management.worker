@@ -46,6 +46,7 @@ func (c *TaskService) GetTask(taskURL string) (*model_shared.ResultWithValue[mod
 		azureapi_utils.FloatToInt(taskAzure.Fields.MicrosoftVSTSCommonPriority),
 		taskAzure.Fields.SystemDescription, taskAzure.Fields.SystemTags,
 		nil, taskAzure.URL, nil, taskAzure.Links.HTML.Href,
+		taskAzure.Fields.SystemCreatedDate, taskAzure.Fields.SystemChangedDate,
 	),
 	), parentURL
 }

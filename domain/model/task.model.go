@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type Task struct {
 	Id               int
 	AreaPath         string
@@ -21,6 +23,8 @@ type Task struct {
 	Url              string
 	Comments         *[]Comment
 	PageUrl          string
+	CreatedDate      time.Time
+	UpdatedDate      time.Time
 }
 
 func NewTask(
@@ -44,6 +48,8 @@ func NewTask(
 	Url string,
 	Comments *[]Comment,
 	PageUrl string,
+	CreatedDate time.Time,
+	UpdatedDate time.Time,
 ) *Task {
 	return &Task{
 		Id:               Id,
@@ -66,5 +72,7 @@ func NewTask(
 		Url:              Url,
 		Comments:         Comments,
 		PageUrl:          PageUrl,
+		CreatedDate:      CreatedDate,
+		UpdatedDate:      UpdatedDate,
 	}
 }
