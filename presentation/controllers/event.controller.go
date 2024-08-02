@@ -36,7 +36,8 @@ func (u *EventController) InsertEvent(c *gin.Context) {
 }
 
 func ProcessEvent(req *application_createevent.CreateEventCommand) {
-	repository.EventLogger.InsertLog(req.Resource.URL, "Start processing.")
+	workItemId := getWorkItemId(req)
+	repository.EventLogger.InsertLog(req.Resource.URL, fmt.Sprintf("Start processing work item: %d.", workItemId))
 
 	context := context.Background()
 
@@ -58,7 +59,7 @@ func ProcessEvent(req *application_createevent.CreateEventCommand) {
 	}
 	ExecuteEvent(context, event, resultgetWorkItemTypeQuery.Result())
 	CloseEvent(context, event)
-	repository.EventLogger.InsertLog(req.Resource.URL, "End processing.")
+	repository.EventLogger.InsertLog(req.Resource.URL, fmt.Sprintf("End processing work item: %d.", workItemId))
 }
 
 func CloseEvent(context context.Context, event *model.Event) {
@@ -73,4 +74,11 @@ func ExecuteEvent(context context.Context, event *model.Event, workItemType *mod
 		return
 	}
 	factory.ExecuteWorkItem(context, event.ResourceUrl)
+}
+
+func getWorkItemId(command *application_createevent.CreateEventCommand) int {
+	if command.Resource.WorkItemId != 0 {
+		return command.Resource.WorkItemId
+	}
+	return command.Resource.ID
 }
